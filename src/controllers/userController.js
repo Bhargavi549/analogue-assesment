@@ -45,6 +45,9 @@ const jwt = require('jsonwebtoken');
           if (!user) {
               return res.status(401).json({ message: 'Invalid email or password' });
           }
+          if (!user.isEmailverified) {
+            return res.status(401).json({message: "email verification not completed, please verify"})
+          }
           token = jwt.sign({ user: user }, process.env.TOKEN_SECRET_KEY, {
               expiresIn: 3600,
           });
